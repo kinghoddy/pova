@@ -1,0 +1,5 @@
+https://pova.netlify.com/admin    https://www.pointofviewafrica.com/admin
+https://pova.netlify.com https://www.pointofviewafrica.com 
+
+/news/*   /news/newsCat.html   200
+/news/*/*   /news/post.html   200

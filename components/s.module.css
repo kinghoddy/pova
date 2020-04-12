@@ -1,0 +1,63 @@
+.widget_title {
+  padding: 15px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+.widget_title h4 {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1;
+  font-size: 16px;
+  font-size: 1rem;
+}
+.widget {
+  /* position: relative; */
+  display: block;
+  margin-bottom: 15px;
+}
+.widget ul.cats {
+  list-style: none;
+  padding: 0;
+}
+.widget ul.cats li {
+  padding: 0 0 5px 2px;
+  position: relative;
+  font-weight: 500;
+}
+.widget ul.cats a {
+  color: #555;
+}
+.widget ul.cats a:hover {
+  color: #004dda;
+}
+.widget ul.cats a span {
+  position: absolute;
+  right: 0;
+}
+.search_blog .form_group {
+  position: relative;
+}
+.search_blog .form_group input[type="submit"] {
+  border: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #004dda;
+  color: #fff;
+  font-weight: 500;
+  height: 32px;
+  padding: 0 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.search_blog .form_group input[type="submit"]:hover {
+  background-color: #0054a6;
+}

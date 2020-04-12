@@ -1,0 +1,26 @@
+{
+  "name": "pova",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start",
+    "export": "npm run build && next export"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+    "@ckeditor/ckeditor5-build-inline": "^18.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
+    "@zeit/next-css": "^1.0.1",
+    "bootstrap": "^4.4.1",
+    "express": "^4.17.1",
+    "firebase": "^7.13.2",
+    "next": "^9.3.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
