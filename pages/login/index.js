@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Link from '../../components/UI/Link/link';
+import Link from 'next/link';
 import firebase from "../../firebase";
 import "firebase/auth";
 import "firebase/database";

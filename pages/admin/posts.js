@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Layout from '../../components/backend/backend';
 import firebase from '../../firebase';
 import 'firebase/database'
-import Link from '../../components/UI/Link/Link'
+import Link from 'next/link'
 import 'firebase/storage';
 import PlaceHolder from '../../components/placeHolder/placeholder'
 
