@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import classes from "./post.module.css";
 import Link from "next/link";
-import firebase from '../../firebase';
-import 'firebase/database'
 class FullPost extends Component {
 
     render() {
@@ -73,7 +71,7 @@ class FullPost extends Component {
                 <figure><img alt="" src={this.props.post.src} /></figure>
                 <div className={classes.postmeta}>
                     <ul>
-                        <li><Link href={"/news/newsCat?newscat=" + this.props.newscat} as={`/news/${this.props.newscat}`} >
+                        <li><Link href={"/news/[newscat]?newscat=" + this.props.newscat} as={`/news/${this.props.newscat}`} >
                             <a className="text-capitalize">
                                 <i className="ti-folder "></i> {this.props.newscat ? this.props.newscat.split('-').join(' ') : null}
                             </a>
@@ -84,14 +82,20 @@ class FullPost extends Component {
                     </ul>
                 </div>
                 <h1 className={classes.postTitle}>{this.props.post.title}</h1>
-
+                <div class={"a2a_kit a2a_kit_size_32 a2a_default_style pb-3 " + classes.buttons} >
+                    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                    <a class="a2a_button_facebook"></a>
+                    <a class="a2a_button_twitter"></a>
+                    <a class="a2a_button_whatsapp"></a>
+                    <a class="a2a_button_pinterest"></a>
+                </div>
                 <div className={classes.post_content}>
                     <div className={classes.dropcaps}>
                         <p dangerouslySetInnerHTML={{ __html: this.props.post.body }} >
                         </p>
                     </div>
-
                 </div>
+
             </div >
         );
     };

@@ -32,7 +32,8 @@ class MyUploadAdapter {
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open('POST', 'https://cors-anywhere.herokuapp.com/https://firebasestorage.googleapis.com/v0/b/pova-aa286.appspot.com/o/img/' + file.name, true);
+
+        xhr.open('POST', 'https://cors-anywhere.herokuapp.com/https://firebasestorage.googleapis.com/v0/b/pova-aa286.appspot.com/o/image/' + file.name, true);
         xhr.responseType = 'json';
     }
 

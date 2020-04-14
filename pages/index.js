@@ -5,6 +5,7 @@ import firebase from '../firebase';
 import 'firebase/database';
 import Spinner from '../components/UI/Spinner/Spinner'
 import Post from '../components/post/post'
+import VidList from '../components/vidList'
 class indexPage extends Component {
     state = {
         category: "",
@@ -33,14 +34,30 @@ class indexPage extends Component {
             for (let cat in posts) {
                 posts[cat].forEach(cur => {
                     cur.category = cat
-                    cur.href = "/news/post?newscat=" + cur.category + '&pid=' + cur.id
+                    cur.href = "/news/[newscat]/[pid]?newscat=" + cur.category + '&pid=' + cur.id
                     cur.as = '/news/' + cur.category + '/' + cur.id
                     newsPosts.push(cur)
                 })
             }
-            this.setState({ posts: newsPosts, loading: false })
+            firebase.database().ref('posts/videos')
+                .on('value', s => {
+                    for (let keys in s.val()) {
+                        newsPosts.push({
+                            ...s.val()[keys],
+                            category: 'videos',
+                            link: keys,
+                            type: 'video',
+                            href: "/videos/[pid]?pid=" + keys,
+                            as: '/videos/' + keys
+                        })
+                    }
+                    this.setState({ posts: newsPosts })
+                })
+            this.setState({ loading: false })
         })
     }
+
+
     render() {
 
         return <Layout title="Home | point of view africa">
@@ -49,11 +66,12 @@ class indexPage extends Component {
             {this.state.loading ? <div style={{ height: "80vh" }}>< Spinner /></div> : null}
 
             <div className="row no-gutters ">
-                {this.state.posts.map(cur => (
-                    <div className="col-lg-6 px-lg-3" key={cur.link}>
+                {this.state.posts.map((cur, i) => (
+                    cur.type === 'video' ? <div className="col-12 px-lg-3" key={i}> <VidList {...cur} /> </div> :
+                        <div className="col-lg-6 px-lg-3" key={i}>
+                            <Post {...cur} />
+                        </div>
 
-                        <Post {...cur} />
-                    </div>
                 ))}
             </div>
 

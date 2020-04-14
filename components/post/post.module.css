@@ -247,6 +247,11 @@ article.blog .post_info ul li:last-child i {
   -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
 }
+.singlepost br {
+  content: "";
+  font-size: 4.5rem;
+  line-height: 0.5;
+}
 @media only screen and (max-width: 650px) {
   .singlepost {
     box-shadow: none !important;
@@ -330,4 +335,9 @@ article.blog .post_info ul li:last-child i {
   line-height: 1;
   margin: 10px 15px 0 0 !important;
   padding: 12px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
 }

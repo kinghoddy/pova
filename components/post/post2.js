@@ -69,7 +69,7 @@ export default props => {
 
           return (
             <li className={" wow fadeInUpBig"} key={i}>
-              <Link href={'/news/post?newscat=' + cur.category + '&pid=' + cur.id} as={"/news/" + cur.category + '/' + cur.id}>
+              <Link href={'/news/[newscat]/[pid]?newscat=' + cur.category + '&pid=' + cur.id} as={"/news/" + cur.category + '/' + cur.id}>
                 <a>
                   <img src={cur.src} alt="" />
                   <div className={classes.alignleft}>

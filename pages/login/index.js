@@ -105,7 +105,7 @@ class Login extends Component {
             if (search) {
                 Router.push("/" + search);
             } else {
-                Router.push("/");
+                Router.push("/admin");
             }
         }
     };
@@ -231,7 +231,7 @@ class Login extends Component {
                         ))}
 
                         <button
-                            className='btnLogin btn btn-lg btn-block  text-uppercase font-weight-bold mb-2'
+                            className='btn-warning btn btn-lg btn-block  text-uppercase font-weight-bold mb-2'
 
                             type="submit"
                         >
@@ -239,11 +239,11 @@ class Login extends Component {
         </button>
 
                         <div className="text-center">
-                            <Link href="/">
+                            {/* <Link href="/">
                                 <a className="small">
                                     Forgot password?
                             </a>
-                            </Link>
+                            </Link> */}
                             <br />
                             <Link className="small" href="/signup">
                                 <a className="small">
@@ -253,7 +253,7 @@ class Login extends Component {
                         </div>
                         <style jsx >{`
                         .googleBtn {
-  background: #d34;
+  background: #55f;
   color: white;
 }
 

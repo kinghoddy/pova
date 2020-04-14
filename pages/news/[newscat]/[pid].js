@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FullPost from '../../components/post/fullPost'
-import Layout from '../../components/layout/layout'
-import firebase from '../../firebase';
+import FullPost from '../../../components/post/fullPost'
+import Layout from '../../../components/layout/layout'
+import firebase from '../../../firebase';
 import 'firebase/database';
 class Post extends Component {
     static async getInitialProps({ query }) {
@@ -35,8 +35,10 @@ class Post extends Component {
         })
     }
     render() {
-        return <Layout  {...this.state.post} >
+        return <Layout  {...this.state.post} title={this.props.Post.title ? this.props.Post.title : 'Full post from Pointofviewafrica'} src={this.props.Post.src ? this.props.Post.src : '/logo.jpg'} body={this.props.Post.body}>
+
             <FullPost post={this.state.post} {...this.props.query} />
+
         </Layout>
     }
 }

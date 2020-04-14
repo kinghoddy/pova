@@ -23,7 +23,7 @@ class News extends Component {
             const post = []
             for (let key in snap.val()) {
                 let Post = snap.val()[key]
-                Post.href = '/news/post?newscat=' + category + '&pid=' + key
+                Post.href = '/news/[newscat]/[pid]?newscat=' + category + '&pid=' + key
                 Post.as = '/news/' + category + '/' + key
 
                 Post.category = category
@@ -38,6 +38,8 @@ class News extends Component {
     }
     componentDidMount() {
         let category = this.props.query.newscat;
+        console.log(category);
+
         if (category !== this.state.category) {
             this.setState({ category: category });
             this.getPosts(category)
@@ -52,22 +54,25 @@ class News extends Component {
     }
     render() {
         return (
-            <Layout>
+            <Layout title={this.props.query.newscat + ' News POVA point of view africa'} body={this.props.query.newscat}>
 
                 <span style={{
                     background: "#f3f3f3", color: '#aaa'
-                }} className="font-weight-light py-1 text-capitalize rounded-pill d-inline-block px-3 mx-3 mb-4"> news / {this.state.category.split('-').join(' ')}</span>
+                }} className="font-weight-light py-1 mt-4 text-capitalize rounded-pill d-inline-block px-3 mx-3 mb-4"> news / {this.state.category.split('-').join(' ')}</span>
 
 
                 {this.state.loading ? <div style={{ height: "50vh" }}>< Spinner /></div> : null}
-                <div className="row">
+                <div className="container-fluid">
 
-                    {this.state.post.map(cur => (
-                        <div className="col-md-6">
+                    <div className="row">
 
-                            <Post {...cur} />
-                        </div>
-                    ))}
+                        {this.state.post.map(cur => (
+                            <div className="col-md-6 ">
+
+                                <Post {...cur} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </Layout>
         );

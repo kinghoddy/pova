@@ -28,17 +28,20 @@ export default class MyDocument extends Document {
                         content="P.O.V.A  is an exclusive pictorial  news site. It is a one stop media outfit dedicated to exploring journalistic ideologies and promoting African values" />
 
                     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Sen&display=swap" rel="stylesheet" />
-                    <meta property="og:title" content="Point of view africa POVA pointofviewafrica.com<" />
+                    <meta property="og:title" content="Point of view africa POVA |" />
                     <meta property="og:description"
                         content=" We are set out to promote and celebrate Nigeria and Africa culture and achievements of UNCELEBRATED people in the areas of business, politics, economy, human and infrastructural development, education and entertainment." />
                     <meta property="og:image" content="/logo.jpg" />
-
                 </Head>
                 <body>
                     <Main />
+
+
                     <NextScript />
+
                 </body>
                 <script src="/js/main.js"></script>
+                <script async src="https://static.addtoany.com/menu/page.js"></script>
             </html>
         )
     }

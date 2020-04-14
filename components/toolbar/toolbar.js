@@ -3,7 +3,7 @@ import Link from '../UI/Link/link'
 
 export default props => {
     return <React.Fragment>
-        <nav className={" py-0 navbar navbar-dark navbar-expand-md"}>
+        <nav className={" py-2 navbar navbar-dark navbar-expand-lg"}>
             <Link href="/">
                 <a className={"brand navbar-brand"}>
                     <img src="/logo.jpg" alt="" />
@@ -23,38 +23,38 @@ export default props => {
                     menu
                 </i>
             </button>
-            <div className="collapse navbar-collapse" id="topNav">
+            <div className="collapse navbar-collapse py-3 py-lg-0" id="topNav">
                 <ul className="navbar-nav ml-auto  mt-0">
                     <li className="nav-item ">
-                        <Link activeClassName="active" href="/news/newsCat?newscat=nigerian-news" as="/news/nigerian-news" >
+                        <Link activeClassName="active" href="/news/[newscat]?newscat=nigerian-news" as="/news/nigerian-news" >
                             <a className="nav-link" >
-                                Nigerian
+                                Nigeria
                             </a>
                         </Link>
                     </li>
                     <li className="nav-item ">
-                        <Link activeClassName="active" as="/news/africa-news" href="/news/newsCat?newscat=african-news">
+                        <Link activeClassName="active" href="/news/[newscat]?newscat=african-news" as="/news/african-news">
                             <a className="nav-link" >
                                 Africa
                             </a>
                         </Link>
                     </li>
                     <li className="nav-item ">
-                        <Link activeClassName="active" as="/news/uk-news" href="/news/newsCat?newscat=uk-news">
+                        <Link activeClassName="active" href="/news/[newscat]?newscat=uk-news" as="/news/uk-news">
                             <a className="nav-link" >
                                 Uk
                             </a>
                         </Link>
                     </li>
                     <li className="nav-item ">
-                        <Link activeClassName="active" as="/news/world-news" href="/news/newsCat?newscat=world-news">
+                        <Link activeClassName="active" href="/news/[newscat]?newscat=world-news" as="/news/world-news">
                             <a className="nav-link" >
                                 World
                             </a>
                         </Link>
                     </li>
                     <li className="nav-item ">
-                        <Link activeClassName="active" as="/news/business-news" href="/news/newsCat?newscat=business-news">
+                        <Link activeClassName="active" href="/news/[newscat]?newscat=business-news" as="/news/business-news">
                             <a className="nav-link" >
                                 Business
                             </a>

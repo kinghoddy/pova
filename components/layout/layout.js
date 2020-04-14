@@ -15,18 +15,17 @@ const google = () => {
 class Layout extends Component {
     componentDidMount() {
         google()
-        console.log(this.props);
 
     }
     render() {
         return <div>
             <Head>
-                <meta property="og:title" content={this.props.title ? this.props.title : ''} />
+                <meta property="og:image" content={this.props.src} />
+                <meta property="og:title" content={this.props.title} />
+                <title>{this.props.title ? this.props.title : 'Glow me skin polish 100% organic skin care'}</title>
                 <meta property="og:description"
-                    content={this.props.body ? this.props.body : " We are set out to promote and celebrate Nigeria and Africa culture and achievements of UNCELEBRATED people in the areas of business, politics, economy, human and infrastructural development, education and entertainment."} />
-                <title>{this.props.title ? this.props.title : 'Point of view africa | POVA pointofviewafrica'}</title>
+                    content={this.props.body ? this.props.body : "1We are set out to promote and celebrate Nigeria and Africa culture and achievements of UNCELEBRATED people in the areas of business, politics, economy, human and infrastructural development, education and entertainment."} />
                 <link rel="shortcut icon" href={this.props.src ? this.props.src : "/logo.jpg"} type="image/x-icon" />
-                <meta property="og:image" content={this.props.src ? this.props.src : "/logo.jpg"} />
             </Head>
             {this.props.hideToolbar ? null : <Toolbar />}
 
@@ -41,13 +40,14 @@ class Layout extends Component {
                     </div>
                 </div>
             </div>
+
             <Footer />
             <style jsx>{`
             .overflow{
                 overflow-x: hidden
             }
             `} </style>
-        </div>
+        </div >
     }
 }
 

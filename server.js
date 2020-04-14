@@ -12,12 +12,12 @@ app.prepare()
         const server = express()
 
 
-        server.get('/news/:newscat', (req, res) => {
-            app.render(req, res, '/news/newsCat', { newscat: req.params.newscat })
-        })
-        server.get('/news/:newscat/:pid', (req, res) => {
-            app.render(req, res, '/news/post', { newscat: req.params.newscat, pid: req.params.pid })
-        })
+        // server.get('/news/:newscat', (req, res) => {
+        //     app.render(req, res, '/news/newscat', { newscat: req.params.newscat })
+        // })
+        // server.get('/news/:newscat/:pid', (req, res) => {
+        //     app.render(req, res, '/news/post', { newscat: req.params.newscat, pid: req.params.pid })
+        // })
         server.get('*', (req, res) => {
             return handle(req, res)
         })

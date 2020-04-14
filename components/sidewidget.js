@@ -43,7 +43,7 @@ class Side extends Component {
         }
 
         return (
-            <div className=" wow fadeInRight sticky-top">
+            <div className=" wow fadeInRight position-relative">
                 <div className={[classes.widget, classes.search_blog].join(" ")}>
                     <div className={classes.form_group}>
                         <input
@@ -59,7 +59,7 @@ class Side extends Component {
                     </div>
                 </div>
                 {/* <!-- /widget --> */}
-                <div className={classes.widget + " overflow-hidden"}>
+                <div className={classes.widget + " overflow-hidden sticky-top"}>
                     <div className={classes.widget_title}>
                         <h4>Latest Post</h4>
                     </div>

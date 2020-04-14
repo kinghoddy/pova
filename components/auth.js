@@ -1,12 +1,12 @@
 import React from 'react';
 export default props => {
-    return (
-        <div className={"user row"}>
-            <div className="col-lg-4 mx-auto  px-5">
-                <img src='/logo.jpg' alt="" className='logo my-3' />
-                {props.children}
-            </div>
-            <style jsx>{`
+  return (
+    <div className={"user row"}>
+      <div className="col-lg-4 mx-auto  px-md-5 px-3 pb-5">
+        <img src='/logo.jpg' alt="" className='logo my-3' />
+        {props.children}
+      </div>
+      <style jsx>{`
             .user {
   background: url("/access_bg.jpg");
   min-height: 100vh;
@@ -30,6 +30,6 @@ export default props => {
 }
 
             `} </style>
-        </div>
-    )
+    </div>
+  )
 }
