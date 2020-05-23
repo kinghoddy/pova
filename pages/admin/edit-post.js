@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import Layout from '../../components/backend/backend';
 import Editor from '../../components/editor/editor';
+import Spinner from '../../components/UI/Spinner/Spinner'
 import firebase from '../../firebase';
 import 'firebase/database';
 import 'firebase/storage';
-import play from '../../components/Audio/Audio'
+import play from '../../components/Audio/Audio';
 export default class Npost extends Component {
+    static async getInitialProps({ query }) {
+        const Post = await firebase.database().ref(`${query.postLink}`).once('value')
+        return { Post, query }
+    }
     state = {
         formData: {
             title: "",
-            body: "post body....",
+            body: "",
         },
         userData: {
 
@@ -19,7 +24,7 @@ export default class Npost extends Component {
         ref: "",
         isNews: true,
         src: "",
-        inlineSrc: '',
+        inlineSrc: "",
         shouldPost: true,
         fileName: '',
         fileSize: '',
@@ -65,15 +70,130 @@ export default class Npost extends Component {
                 userdata.username = user.displayName.toLowerCase();
 
                 this.setState({
-                    loading: false,
                     shouldLogout: false,
                     userData: userdata
                 });
             }
         });
+        const formData = {}
+        let post = this.props.Post
+        if (post.title) {
+            formData.title = post.title
+            formData.body = post.body
+            if (this.props.query.newscat) {
+                this.setState({ isNews: true, newscat: this.props.query.newscat })
+            } else {
+                this.setState({ isNews: false, category: this.props.query.category })
+            }
+            this.setState({
+                formData: formData,
+                src: post.src,
+                inlineSrc: post.inlineSrc,
+                loading: false
+            })
+        } else {
+            firebase.database().ref(this.props.query.postLink).once('value').then(data => {
+                post = data.val()
+                console.log(post);
+
+                formData.title = post.title
+                formData.body = post.body
+                if (this.props.query.newscat) {
+                    this.setState({ isNews: true, newscat: this.props.query.newscat })
+                } else {
+                    this.setState({ isNews: false, category: this.props.query.category })
+                }
+                this.setState({
+                    formData: formData,
+                    src: post.src,
+                    inlineSrc: post.inlineSrc,
+                    loading: false
+                })
+            })
+        }
 
     }
-    upload = (types) => {
+    iupload = types => {
+        // File or Blob named mountains.jpg
+        let uploadType = types
+
+        this.setState({ shouldPost: false, loading: true, error: null })
+        var files = document.createElement('input')
+        files.type = 'file'
+
+        files.setAttribute('accept', 'video/*')
+
+        files.click()
+        files.onchange = e => {
+            let storageRef = firebase.storage().ref('/news/' + this.state.newscat)
+            if (uploadType === 'videos') {
+                storageRef = firebase.storage().ref('/')
+            }
+            const file = files.files[0];
+            if (file.size > 40000000) {
+                this.setState({ shouldPost: true, error: "File too large \n Maximum size is 40mb" })
+            } else {
+                const uploadTask = storageRef.child(types + "/" + file.name).put(file);
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
+                    this.setState({
+                        shouldPost: false, loading: false, fileName: file.name, fileSize: (snapshot.totalBytes / 1000000).toFixed(2) + ' mb'
+                    })
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    var progressMessage = 'Upload is ' + Math.floor(progress) + '% Done.'
+                    this.setState({ progressMessage: progressMessage, progbarLength: progress + '%' })
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            console.log('Upload is paused');
+                            this.setState({ progressMessage: 'Upload is paused' })
+
+                            break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                            break;
+                        default:
+                            break;
+                    }
+                }, (error) => {
+                    this.setState({ shouldLogout: true })
+
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            this.setState({
+                                error: "You don't have permission to access the object"
+                            })
+                            break;
+                        case 'storage/canceled':
+                            this.setState({ error: "Upload canceled" })
+                            break;
+                        case 'storage/unknown':
+                            this.setState({ error: "Unknown error occurred" })
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
+                        default:
+                            this.setState({ error: "Unknown error occurred" })
+                            break;
+                    }
+                }, () => {
+                    this.setState({ shouldPost: false, loading: true, progressMessage: null })
+
+                    uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                        console.log(url);
+                        const ref = '/video/' + file.name
+
+                        this.setState({ shouldPost: true, loading: false, inlineSrc: url })
+                    })
+
+
+
+                });
+            }
+
+
+
+        }
+    }
+
+    upload = types => {
         // File or Blob named mountains.jpg
         let uploadType = types
 
@@ -183,7 +303,7 @@ export default class Npost extends Component {
             if (this.state.category === 'news') {
                 postref = firebase.database().ref("posts/news/" + this.state.newscat)
             }
-            console.log(postref);
+            console.log(Post);
 
             postref.push(Post)
                 .then(res => {
@@ -200,95 +320,19 @@ export default class Npost extends Component {
             });
         }
     };
-    iupload = types => {
-        // File or Blob named mountains.jpg
-        let uploadType = types
 
-        this.setState({ shouldPost: false, loading: true, error: null })
-        var files = document.createElement('input')
-        files.type = 'file'
-
-        files.setAttribute('accept', 'video/*')
-
-        files.click()
-        files.onchange = e => {
-            let storageRef = firebase.storage().ref('/news/' + this.state.newscat)
-            if (uploadType === 'videos') {
-                storageRef = firebase.storage().ref('/')
-            }
-            const file = files.files[0];
-            if (file.size > 40000000) {
-                this.setState({ shouldPost: true, error: "File too large \n Maximum size is 40mb" })
-            } else {
-                const uploadTask = storageRef.child(types + "/" + file.name).put(file);
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-                    this.setState({
-                        shouldPost: false, loading: false, fileName: file.name, fileSize: (snapshot.totalBytes / 1000000).toFixed(2) + ' mb'
-                    })
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    var progressMessage = 'Upload is ' + Math.floor(progress) + '% Done.'
-                    this.setState({ progressMessage: progressMessage, progbarLength: progress + '%' })
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
-                            this.setState({ progressMessage: 'Upload is paused' })
-
-                            break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                            break;
-                        default:
-                            break;
-                    }
-                }, (error) => {
-                    this.setState({ shouldLogout: true })
-
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            this.setState({
-                                error: "You don't have permission to access the object"
-                            })
-                            break;
-                        case 'storage/canceled':
-                            this.setState({ error: "Upload canceled" })
-                            break;
-                        case 'storage/unknown':
-                            this.setState({ error: "Unknown error occurred" })
-                            // Unknown error occurred, inspect error.serverResponse
-                            break;
-                        default:
-                            this.setState({ error: "Unknown error occurred" })
-                            break;
-                    }
-                }, () => {
-                    this.setState({ shouldPost: false, loading: true, progressMessage: null })
-
-                    uploadTask.snapshot.ref.getDownloadURL().then(url => {
-                        console.log(url);
-                        const ref = '/video/' + file.name
-
-                        this.setState({ shouldPost: true, loading: false, inlineSrc: url })
-                    })
-
-
-
-                });
-            }
-
-
-
-        }
-    }
     render() {
-        return <Layout route="New post">
-            <Editor
+        return <Layout route="Edit post">
+            {this.state.loading ? <Spinner /> : <Editor
                 title={this.state.formData.title}
                 isNews={this.state.isNews}
                 shouldPost={this.state.shouldPost}
                 body={this.state.formData.body}
                 category={this.state.category}
+                newscat={this.state.newscat}
+                editing={true}
                 fileName={this.state.fileName}
-                upload={t => this.upload(t)}
+                upload={(t) => this.upload(t)}
                 iupload={(t) => this.iupload(t)}
                 fileSize={this.state.fileSize}
                 progressMessage={this.state.progressMessage}
@@ -297,7 +341,7 @@ export default class Npost extends Component {
                 progbarLength={this.state.progbarLength}
                 submit={this.sendPost}
                 changed={(e, type, val) => { this.inputChanged(e, type, val) }}
-            />
+            />}
         </Layout>
     }
 }

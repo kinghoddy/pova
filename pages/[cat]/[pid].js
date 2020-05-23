@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import FullPost from '../../../components/post/fullPost'
-import Layout from '../../../components/layout/layout'
-import firebase from '../../../firebase';
+import FullPost from '../../components/post/fullPost'
+import Layout from '../../components/layout/layout'
+import firebase from '../../firebase';
 import 'firebase/database';
 class Post extends Component {
     static async getInitialProps({ query }) {
-        const Post = await firebase.database().ref(`posts/news/${query.newscat}/${query.pid}`).once('value')
+        const Post = await firebase.database().ref(`posts/${query.cat}/${query.pid}`).once('value')
         return { Post, query }
     }
     state = {
@@ -30,14 +30,16 @@ class Post extends Component {
         }
     }
     getPost = () => {
-        firebase.database().ref(`posts/news/${this.props.query.newscat}/${this.props.query.pid}`).once('value', s => {
+        firebase.database().ref(`posts/${this.props.query.cat}/${this.props.query.pid}`).once('value', s => {
+
             this.setState({ post: s.val() })
         })
     }
     render() {
         return <Layout  {...this.state.post}>
-            <h4 className="text-success text-uppercase mb-0 px-3 px-md-0 pt-2">News / {this.props.query.newscat}</h4>
-            <FullPost post={this.state.post} {...this.props.query} />
+            <h4 className="text-info text-uppercase px-3 pt-2 px-md-0">{this.props.query.cat} : </h4>
+            <FullPost category={this.props.query.cat} post={this.state.post} {...this.props.query} />
+
         </Layout>
     }
 }

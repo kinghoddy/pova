@@ -65,38 +65,65 @@ class FullPost extends Component {
             date = week + '  ' + hour + ':' + min + clock
         }
         return (
-            <div className={classes.singlepost + " wow fadeIn slow"
-            } >
+            <React.Fragment>
+                <div className="pan">  {this.props.post.title}</div>
+                <style jsx>
+                    {`
+                .pan {
+                    font-weight : bold;
+                    color  : black;
+                    padding :0  1rem 1rem 1rem ;
+                    font-size : 1.4rem;
+                }
+                @media only screen and (min-width : 1200px){
+                    .pan { 
+                        padding :0 0 1rem 0;
+                        font-size : 2rem
+                    }
+                }
+                `}
+                </style>
 
-                <figure><img alt="" src={this.props.post.src} /></figure>
-                <div className={classes.postmeta}>
-                    <ul>
-                        <li><Link href={"/news/[newscat]?newscat=" + this.props.newscat} as={`/news/${this.props.newscat}`} >
-                            <a className="text-capitalize">
-                                <i className="ti-folder "></i> {this.props.newscat ? this.props.newscat.split('-').join(' ') : null}
-                            </a>
-                        </Link>
-                        </li>
-                        <li> {date}</li>
+                <div className={classes.singlepost + " wow fadeIn slow"
+                } >
+                    <figure><img alt="" src={this.props.post.src} /></figure>
+                    <div className={classes.postmeta}>
+                        <ul>
 
-                    </ul>
-                </div>
-                <h1 className={classes.postTitle}>{this.props.post.title}</h1>
-                <div class={"a2a_kit a2a_kit_size_32 a2a_default_style pb-3 " + classes.buttons} >
-                    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-                    <a class="a2a_button_facebook"></a>
-                    <a class="a2a_button_twitter"></a>
-                    <a class="a2a_button_whatsapp"></a>
-                    <a class="a2a_button_pinterest"></a>
-                </div>
-                <div className={classes.post_content}>
-                    <div className={classes.dropcaps}>
-                        <p dangerouslySetInnerHTML={{ __html: this.props.post.body }} >
-                        </p>
+                            {this.props.category ? <li><Link href={"/[cat]?cat=" + this.props.category} as={`/${this.props.category}`} >
+                                <a className="text-capitalize">
+                                    <i className="ti-folder "></i> {this.props.category ? this.props.category.split('-').join(' ') : null}
+                                </a>
+                            </Link>
+                            </li> : <li><Link href={"/news/[newscat]?newscat=" + this.props.newscat} as={`/news/${this.props.newscat}`} >
+                                <a className="text-capitalize">
+                                    <i className="ti-folder "></i> {this.props.newscat ? this.props.newscat.split('-').join(' ') : null}
+                                </a>
+                            </Link>
+                                </li>}
+                            <li> {date}</li>
+
+                        </ul>
                     </div>
-                </div>
+                    <h1 className={classes.postTitle}>{this.props.post.title}</h1>
+                    <div class={"a2a_kit a2a_kit_size_32 a2a_default_style pb-3 " + classes.buttons} >
+                        <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                        <a class="a2a_button_facebook"></a>
+                        <a class="a2a_button_twitter"></a>
+                        <a class="a2a_button_whatsapp"></a>
+                        <a class="a2a_button_pinterest"></a>
+                    </div>
+                    <div className={classes.post_content}>
+                        <div className={classes.dropcaps}>
+                            <p dangerouslySetInnerHTML={{ __html: this.props.post.body }} >
+                            </p>
+                        </div>
+                        {this.props.post.inlineSrc ? <div className={classes.videoInline}> <video controls src={this.props.post.inlineSrc}></video></div> : null}
+                    </div>
 
-            </div >
+                </div >
+            </React.Fragment>
+
         );
     };
 

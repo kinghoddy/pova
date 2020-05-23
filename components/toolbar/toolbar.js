@@ -3,28 +3,9 @@ import Link from '../UI/Link/link'
 
 export default props => {
     return <React.Fragment>
-        <nav className={" py-2 navbar navbar-dark navbar-expand-lg"}>
-            <Link href="/">
-                <a className={"brand navbar-brand"}>
-                    <img src="/logo.jpg" alt="" />
-                    <span className="text-uppercase ml-2 h6 font-weight-light d-inlime-block pt-3">Point of view africa </span>
-                </a>
-            </Link>
-            <button
-                className="navbar-toggler d-lg-none"
-                type="button"
-                data-toggle="collapse"
-                data-target="#topNav"
-                aria-controls="topNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <i className="material-icons">
-                    menu
-                </i>
-            </button>
-            <div className="collapse navbar-collapse py-3 py-lg-0" id="topNav">
-                <ul className="navbar-nav ml-auto  mt-0">
+        <nav className={" py-0 navbar  navbar-dark navbar-expand  overflow-auto"}>
+            <div className="collapse navbar-collapse py-0" id="collapsibleNavId">
+                <ul className="navbar-nav   mt-0">
                     <li className="nav-item ">
                         <Link activeClassName="active" href="/news/[newscat]?newscat=nigerian-news" as="/news/nigerian-news" >
                             <a className="nav-link" >
@@ -60,23 +41,44 @@ export default props => {
                             </a>
                         </Link>
                     </li>
-                    <li className="nav-item ">
-                        <Link activeClassName="active" href="/admin">
-                            <a className="nav-link" >
-                                Admin
-                            </a>
-                        </Link>
-                    </li>
-                    <li className="nav-item d-flex align-items-center ml-md-3">
-                        <h5 className="mb-0 mr-3 text-light">Follow us </h5>
-                        <div className={" shareaholic-canvas"} data-app="follow_buttons" data-app-id="28108433"></div>
-                    </li>
+
+
                 </ul>
             </div>
+            <form className="nav-form">
+                <input type="search" placeholder="Search..." />
+                <button>
+                    <i className="material-icons">search</i>
+                </button>
+            </form>
+            <div className=" d-flex align-items-center ml-3 ml-lg-5">
+                <h5 className="mb-0  mr-3 text-light">Follow us </h5>
+                <div className={"d-flex shareaholic-canvas"} data-app="follow_buttons" data-app-id="28108433"></div>
+            </div>
         </nav>
-        <nav className={" py-0 navbar navbar-dark navbar-expand sticky-top overflow-auto"}>
-            <div className="collapse navbar-collapse" id="collapsibleNavId">
-                <ul className="navbar-nav ml-lg-auto mt-2 mt-lg-0">
+
+        <nav className={"nav1 py-2 sticky-top navbar navbar-light navbar-expand-lg"}>
+            <Link href="/">
+                <a className={"brand navbar-brand"}>
+                    <img src="/logo.jpg" alt="" />
+                    <span className="text-uppercase ml-2 h6 font-weight-light d-inlime-block pt-3">Point of view africa </span>
+                </a>
+            </Link>
+            <button
+                className="navbar-toggler d-lg-none"
+                type="button"
+                data-toggle="collapse"
+                data-target="#topNav"
+                aria-controls="topNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <i className="material-icons">
+                    menu
+                </i>
+            </button>
+            <div className="collapse navbar-collapse" id="topNav">
+                <ul className="navbar-nav ml-auto">
 
                     <li className="nav-item ">
                         <Link activeClassName="active" href="/">
@@ -100,14 +102,14 @@ export default props => {
                         </Link>
                     </li>
                     <li className="nav-item ">
-                        <Link activeClassName="active" href="/entertainment">
+                        <Link activeClassName="active" href="/[cat]?cat=entertainment" as="/entertainment">
                             <a className="nav-link">
                                 Entertainment
                             </a>
                         </Link>
                     </li>
                     <li className="nav-item ">
-                        <Link activeClassName="active" href="/politics">
+                        <Link activeClassName="active" href="/[cat]?cat=politics" as="/politics">
                             <a className="nav-link">
                                 Politics
                             </a>
@@ -136,6 +138,7 @@ export default props => {
                         </Link>
                     </li>
                 </ul>
+
             </div>
 
         </nav>
@@ -143,11 +146,15 @@ export default props => {
             {`
             nav,
      nav.scrolled {
-              background: #223;
+              background: #822;
               background-size: cover;
               background-position: bottom;
               transition: all 0.3s;
               z-index: 2000;
+           }
+           .nav1{
+               background : white;
+               box-shadow : 0 0rem .5rem rgba(0,0,0,.1)
            }
 nav::-webkit-scrollbar {
   height: 1px;
@@ -159,7 +166,37 @@ nav img {
   display: flex;
   align-items: center;
 }
+.nav-form {
+    display :flex;
+    align-self : stretch;
+    border-radius : 2px;
+    overflow : hidden;
+}
+.nav-form input::placeholder{
+    color : rgba(255,255,255,.5);
+}
+nav > *{
+    flex-shrink : 0;
+}
+.nav-form input {
+    width : 15rem;
+    color : white;
+    padding : 0 1rem;
+    border : 0;
+    align-self : stretch;
+    background : rgba(255,255,255,.1);
+    outline : 0
 
+}
+.nav-form button {
+    background : none;
+    align-self : stretch;
+    color : white;
+    border : 0;
+    outline : 0;
+    background : rgba(0,0,0,.2);
+
+}
 nav .brand {
   align-items: center;
   padding: 0 !important;

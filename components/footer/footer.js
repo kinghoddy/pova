@@ -6,7 +6,7 @@ export default props => {
         <footer className={classes.footer + " bg-white fadeIn wow"}>
             <div className="container ">
                 <div className="row py-5">
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-6">
                         <h3>Quick Links</h3>
 
                         <ul className={classes.links}>
@@ -18,7 +18,7 @@ export default props => {
                             <li><Link href="/"><a>Contacts</a></Link></li>
                         </ul>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-6">
                         <h3>Categories</h3>
                         <ul className={classes.links}>
                             <li><Link href="/news"><a>News</a></Link></li>
@@ -29,7 +29,7 @@ export default props => {
                             <li><Link href="/politics"><a>Politics</a></Link></li>
                         </ul>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-6">
 
                         <h3>Contacts</h3>
 
@@ -41,7 +41,7 @@ export default props => {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-sm-6">
+                    <div className="col-lg-3 col-6">
                         <img src='/logo.jpg' alt="" className={classes.logo} />
                     </div>
                 </div>

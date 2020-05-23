@@ -67,6 +67,9 @@ export default class extends Component {
             <div className={[classes.wrapper, this.state.showSidenav ? classes.show : ''].join(" ")} >
                 <Head>
                     <title>Admin | pint of view africa</title>
+                    <link rel="shortcut icon" href="/logo.jpg" />
+                    <meta property="og:title" content="Admin | Pointofviewafrica" />
+                    <meta property="og:image" content="/logo.jpg" />
                 </Head>
                 {this.state.loading ? <Loader /> : null}
                 {this.state.showSidenav ?
@@ -105,9 +108,14 @@ export default class extends Component {
                             New post
                         </a>
                     </Link>
+                    <Link activeClassName={classes.active} href="/admin/media"  >
+                        <a className={classes.sidenavLink}>
+                            Media storage
+                        </a>
+                    </Link>
 
                     <button onClick={this.logOutHandler} className="btn-block btn rounded btn-outline-light">Log out</button>
-                    <img className={classes.logo} alt="" src="/logo.jpg" />
+                    {/* <img className={classes.logo} alt="" src="/logo.jpg" /> */}
                 </div>
                 <nav className={classes.navbar + " navbar navbar-expand py-1 fixed-top border-bottom navbar-light bg-white"}>
                     <div className={classes.brand + " navbar-brand py-0 mr-auto"}>
@@ -130,15 +138,7 @@ export default class extends Component {
 
                 </nav>
                 {this.props.children}
-                <div className="a2a_kit a2a_kit_size_32 a2a_default_style" >
-                    <a className="a2a_dd" href="https://www.addtoany.com/share"></a>
-                    <a className="a2a_button_facebook"></a>
-                    <a className="a2a_button_twitter"></a>
-                    <a className="a2a_button_whatsapp"></a>
-                    <a className="a2a_button_telegram"></a>
-                    <a className="a2a_button_pinterest"></a>
-                </div>
-                <div class="sharethis-inline-share-buttons"></div>
+
             </div>
         )
     }

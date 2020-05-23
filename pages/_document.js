@@ -14,8 +14,7 @@ export default class MyDocument extends Document {
                     <meta name="shareaholic:site_id" content="182b0bb934f1c10e50b9077bca5aab91" />
                     <script data-cfasync="false" async src="https://cdn.shareaholic.net/assets/pub/shareaholic.js"></script>
                     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144505091-5"></script>
-                    <meta name="theme-color" content="#123" />
-                    <link rel="shortcut icon" href="/logo.jpg" type="image/x-icon" />
+                    <meta name="theme-color" content="#fff" />
                     <link rel="stylesheet" href="/iconfont/material-icons.css" />
                     <link rel="stylesheet" href="/css/bootstrap.min.css" />
                     <link rel="stylesheet" href="/index.css" />
@@ -31,7 +30,6 @@ export default class MyDocument extends Document {
                     <meta property="og:title" content="Point of view africa POVA |" />
                     <meta property="og:description"
                         content=" We are set out to promote and celebrate Nigeria and Africa culture and achievements of UNCELEBRATED people in the areas of business, politics, economy, human and infrastructural development, education and entertainment." />
-                    <meta property="og:image" content="/logo.jpg" />
                 </Head>
                 <body>
                     <Main />

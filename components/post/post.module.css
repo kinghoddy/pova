@@ -306,6 +306,18 @@ article.blog .post_info ul li:last-child i {
     font-size: 1.3rem !important;
   }
 }
+.videoInline {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 0 2rem 0;
+}
+.videoInline video {
+  background: black;
+  object-fit: contain;
+  max-height: 50vh;
+  display: block;
+  width: 100%;
+}
 
 .postmeta {
   padding: 8px 12px;

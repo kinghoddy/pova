@@ -10,6 +10,16 @@
   height: 1005;
   object-fit: cover;
 }
+.cat {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: white;
+  background: #d20;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+  text-transform: capitalize;
+}
 .card h5 {
   position: absolute;
   bottom: 0;

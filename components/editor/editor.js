@@ -1,5 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
+import firebase from '../../firebase';
+import 'firebase/auth';
+import 'firebase/database';
+import Toast from '../UI/Toast/Toast'
+import Storage from '../storage'
+
 class MyUploadAdapter {
+    getToken = () => {
+        firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then((idToken) => {
+            return idToken
+        }).catch(function (error) {
+            console.log(error);
+            // Handle error
+        });
+    }
     constructor(loader) {
         // The file loader instance to use during the upload.
         this.loader = loader;
@@ -9,7 +23,7 @@ class MyUploadAdapter {
     upload() {
         return this.loader.file
             .then(file => new Promise((resolve, reject) => {
-                this._initRequest(file);
+                this._initRequest(file, this.getToken());
                 this._initListeners(resolve, reject, file);
                 this._sendRequest(file);
             }));
@@ -23,18 +37,13 @@ class MyUploadAdapter {
     }
 
     // Initializes the XMLHttpRequest object using the URL passed to the constructor.
-    _initRequest(file) {
+    _initRequest(file, token) {
         const xhr = this.xhr = new XMLHttpRequest();
 
 
-
-        // Note that your request may look different. It is up to you and your editor
-        // integration to choose the right communication channel. This example uses
-        // a POST request with JSON as a data structure but your configuration
-        // could be different.
-
-        xhr.open('POST', 'https://cors-anywhere.herokuapp.com/https://firebasestorage.googleapis.com/v0/b/pova-aa286.appspot.com/o/image/' + file.name, true);
+        xhr.open('POST', 'https://cors-anywhere.herokuapp.com/https://firebasestorage.googleapis.com/v0/b/pova-aa286.appspot.com/o/img/' + file.name, true);
         xhr.responseType = 'json';
+
     }
 
     // Initializes XMLHttpRequest listeners.
@@ -100,6 +109,7 @@ export default props => {
     const editorRef = useRef()
     const [editorLoaded, setEditorLoaded] = useState(false)
     const { CKEditor, ClassicEditor } = editorRef.current || {}
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         editorRef.current = {
@@ -114,11 +124,32 @@ export default props => {
             return new MyUploadAdapter(loader);
         };
     }
-
-
-
+    const [toast, setToast] = useState(null);
+    const copied = () => {
+        setToast(null)
+        setShowModal(false)
+        setTimeout(() => {
+            setToast('Copied url to clipboard')
+        }, 500);
+    }
     return editorLoaded ? (
         <form onSubmit={props.submit} className="wrapper">
+            {showModal ? <div className="storage" >
+                <div className="backdrop" onClick={() => { setShowModal(false) }} ></div>
+                <div className="container py-2">
+                    <Storage copied={copied} />
+                </div>
+            </div> : null}
+            {toast ? <Toast>{toast} </Toast> : null}
+            {props.progressMessage ? <div className={'row no-gutters py-4 px-4 my-2 bg-white'}>
+                <p className="col-12"><strong>File name :</strong> {props.fileName} </p>
+                <p className="col-12"><strong>File size :</strong> {props.fileSize} </p>
+
+                <div className='progBar'>
+                    <span></span>
+                </div>
+                <h4 className="h5 pt-3 font-weight-bold">{props.progressMessage}</h4>
+            </div> : null}
             <div className="d-flex  pb-2 mb-3 border-bottom  align-items-center justify-content-between">
                 <div>
                     {props.category === 'videos' ? <button type="button"
@@ -130,11 +161,13 @@ export default props => {
         </button> : <button
                             type="button"
                             onClick={() => props.upload("images")}
-                            className='btn'
+                            className='btn btn-light'
                         >
                             <i className="material-icons text-success pr-2">photo</i>
           Add a Photo
-        </button>}
+        </button>
+                    }
+                    <button onClick={() => setShowModal(true)} type="button" className="btn btn-info">Open media storage</button>
 
                     <h5 className="m-1">Or paste a url</h5>
                     <input type="url" onChange={(e) => { props.changed(e, 'src') }}
@@ -149,27 +182,16 @@ export default props => {
 
                     </div>
                 ) : <div className="box">
-                        {props.shouldPost ? (
-                            props.category === 'videos' ?
-                                <i className="material-icons md-48 text-warning pr-2">videocam</i> :
-                                <i className="material-icons md-48 text-success pr-2">photo</i>
-                        ) :
-                            props.progressMessage ? <div className={'row no-gutters py-4 px-4 my-2 bg-white'}>
-                                <p className="col-12"><strong>File name :</strong> {props.fileName} </p>
-                                <p className="col-12"><strong>File size :</strong> {props.fileSize} </p>
+                        {props.category === 'videos' ?
+                            <i className="material-icons md-48 text-warning pr-2">videocam</i> :
+                            <i className="material-icons md-48 text-success pr-2">photo</i>}
 
-                                <div className='progBar'>
-
-                                    <span></span>
-                                </div>
-                                <h4 className="h5 pt-3 font-weight-bold">{props.progressMessage}</h4>
-                            </div> : null
                         }
                     </div>}
             </div>
 
             <div className="pb-3 d-flex justify-content-between align-items-center">
-                <h5>New {props.category} post</h5>
+                <h5>{props.editing ? 'Edit ' : 'New '}{props.category} post</h5>
                 {props.shouldPost ? <button
                     className=" d-flex btn rounded-pill  align-items-center"
                     style={{
@@ -203,9 +225,36 @@ export default props => {
 
                 }}
                 config={{
+                    // cloudServices: {
+                    //     tokenUrl: 'https://70502.cke-cs.com/token/dev/x2TsWXN46aUh9ExNthKzcolnGaDSIKYmkYuqkMCRaRGtuHWEmcQAtF5sC5oA',
+                    //     uploadUrl: 'https://70502.cke-cs.com/easyimage/upload/'
+                    // }
                     extraPlugins: [MyCustomUploadAdapterPlugin]
                 }}
             />
+            <div className="d-flex mt-2 py-2 mb-3 border-bottom  align-items-center justify-content-between">
+                <div>
+                    <button type="button"
+                        onClick={() => props.iupload("video")}
+                        className='btn'
+                    >
+                        <i className="material-icons text-warning pr-2">videocam</i>
+         Add an inline video        </button>
+
+                    <h5 className="m-1">Or paste a url</h5>
+                    <input type="url" onChange={(e) => { props.changed(e, 'inlineSrc') }}
+                        value={props.inlineSrc}
+                        placeholder="Paste url here" />
+                </div>
+
+
+                <div className="box">
+                    <div className="media " >
+                        <video src={props.inlineSrc} autoPlay muted> </video>
+                    </div>
+                </div>
+            </div>
+
             <div className='d-flex '>
                 <select
                     className=" form-control my-2 col-6"
@@ -214,13 +263,13 @@ export default props => {
                     }}
 
                 >
-                    <option value="news">News</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="religion">Religion</option>
-                    <option value="videos">Videos</option>
-                    <option value="health">health</option>
-                    <option value="sport">Sport</option>
-                    <option value="crime">Crime</option>
+                    <option selected={props.category === 'news' ? true : false} value="news">News</option>
+                    <option selected={props.category === 'entertainment' ? true : false} value="entertainment">Entertainment</option>
+                    <option selected={props.category === 'religion' ? true : false} value="religion">Religion</option>
+                    <option selected={props.category === 'videos' ? true : false} value="videos">Videos</option>
+                    <option selected={props.category === 'health' ? true : false} value="health">health</option>
+                    <option selected={props.category === 'sport' ? true : false} value="sport">Sport</option>
+                    <option selected={props.category === 'crime' ? true : false} value="crime">Crime</option>
                 </select>
                 {props.isNews ? <select
                     className=" form-control my-2 col-6"
@@ -228,11 +277,11 @@ export default props => {
                         props.changed(event, 'newscat')
                     }}
                 >
-                    <option value="nigerian-news">Nigerian news</option>
-                    <option value="african-news">african news</option>
-                    <option value="uk-news">uk news</option>
-                    <option value="world-news">world news</option>
-                    <option value="business-news">business news</option>
+                    <option selected={props.newscat === 'nigerian-news' ? true : false} value="nigerian-news">Nigerian news</option>
+                    <option selected={props.newscat === 'african-news' ? true : false} value="african-news">african news</option>
+                    <option selected={props.newscat === 'uk-news' ? true : false} value="uk-news">uk news</option>
+                    <option selected={props.newscat === 'world-news' ? true : false} value="world-news">world news</option>
+                    <option selected={props.newscat === 'business-news' ? true : false} value="business-news">business news</option>
                 </select> : null}
             </div>
 
@@ -283,9 +332,6 @@ export default props => {
                 .btn {
                      display: flex;
                      align-items: center;
-                     background: none;
-                     border: none;
-                     color: var(--gray-dark);
                  }
 .media {
   width: 10rem;
@@ -302,7 +348,27 @@ export default props => {
 .btn:hover {
   color: VAR(--BLACK);
 }
-
+.storage {
+    height : 100vh;
+    position : fixed;
+    left : 0;
+    width : 100%;
+    z-index : 3000;
+    top : 0;
+}
+.backdrop {
+      height : 100vh;
+    position : absolute;
+    left : 0;
+    width : 100%;
+    top : 0;
+    z-index : -1;
+    backdrop-filter : blur(.4rem) brightness(60%)
+}
+.storage > .container {
+    max-width : 40rem;
+    margin-top : 3rem 
+}
                 @media only screen and (min-width : 760px){
                     .box {
                     width : 25rem

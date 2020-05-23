@@ -18,13 +18,15 @@ class Layout extends Component {
 
     }
     render() {
-        return <div>
+        return <React.Fragment>
             <Head>
-                <meta property="og:image" content={this.props.src} />
+                <meta property="og:image" content={this.props.src ? this.props.src : '/logo.jpg'} />
                 <meta property="og:title" content={this.props.title} />
-                <title>{this.props.title ? this.props.title : 'Glow me skin polish 100% organic skin care'}</title>
+                <title>{this.props.title ? this.props.title : 'pointofviewafrica'}</title>
                 <meta property="og:description"
                     content={this.props.body ? this.props.body : "1We are set out to promote and celebrate Nigeria and Africa culture and achievements of UNCELEBRATED people in the areas of business, politics, economy, human and infrastructural development, education and entertainment."} />
+                <meta name="description" content={this.props.body} />
+
                 <link rel="shortcut icon" href={this.props.src ? this.props.src : "/logo.jpg"} type="image/x-icon" />
             </Head>
             {this.props.hideToolbar ? null : <Toolbar />}
@@ -35,7 +37,7 @@ class Layout extends Component {
                         {this.props.children}
                         <div className="shareaholic-canvas" data-app="share_buttons" data-app-id="28839360"></div>
                     </div>
-                    <div className="col-md-4 col-lg-3 ml-auto overflow  mt-3 px-2 px-md-3 ">
+                    <div className="col-md-4  col-lg-3 ml-auto  position-relative  mt-3 px-2 px-md-3 ">
                         <SideWidjet />
                     </div>
                 </div>
@@ -44,10 +46,11 @@ class Layout extends Component {
             <Footer />
             <style jsx>{`
             .overflow{
-                overflow-x: hidden
+                overflow-x: hidden;
+                overflow-y : visible;
             }
             `} </style>
-        </div >
+        </React.Fragment>
     }
 }
 

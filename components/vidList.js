@@ -65,10 +65,11 @@ export default props => {
     }
 
     return <Link href={`/videos/[pid]?pid=${props.id}`} as={`/videos/${props.id}`}>
-        <div className="d-flex list">
+        <a className="d-flex list">
             <video src={props.src} preload></video>
+            <i className="material-icons">videocam</i>
             <div className="p-3 ">
-                <h6 className="mb-0 mb-md-2"> {props.title}</h6>
+                <h6 className="mb-0 mb-md-1"> {props.title}</h6>
                 <span>{date}</span>
                 <p className="m-0 d-none d-lg-block">
 
@@ -77,11 +78,21 @@ export default props => {
             </div>
             <style jsx>
                 {`
+                .material-icons {
+                    left : 15% ;
+                    position : absolute;
+                    font-size : 3rem;
+                    top : 50%;
+                    color : #fff !important;
+                    transform : translate(-50%, -50%)
+                }
                 .list{
-                    margin : 1rem 0;
-                    height : 7rem;
+                    position : relative;
+                    margin : 0 0 1rem 0;
+                    height : 8rem;
                     background : #fff;
-                    transition :all .3s 
+                    transition :all .3s; 
+                    overflow : hidden
                 }
                 .list:hover{
                     background : #f7f7ff;
@@ -89,9 +100,17 @@ export default props => {
                 }
                 .list video{
                     height : 100%;
+                    filter : brightness(80%);
                     background : #ddd;
                     width : 30%;
-                    object-fit : cover
+                    object-fit : cover;
+                    transition : all .3s;
+
+                }
+                .list:hover video{
+                    filter : brightness(50%);
+                    transform : scaleY(1.3)
+
                 }
                 .list span{
                     font-size : .8rem ;
@@ -113,7 +132,7 @@ export default props => {
                 }
                 `}
             </style>
-        </div>
+        </a>
 
     </Link>
 
